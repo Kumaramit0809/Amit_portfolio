@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Amit Kumar ~ portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0C0D1A;
+      --ink: #EDEEFF;
+      --mute: #A9AEE6;
+      --blue: #2F6BFF;
+      --glass: rgba(255, 255, 255, .07);
+      --line: rgba(255, 255, 255, .14)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 16px/1.55 Inter, system-ui, sans-serif;
+      min-height: 100vh
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      text-align: left
+    }
+
+    :focus-visible {
+      outline: 2px solid #9DB8FF;
+      outline-offset: 3px
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0
+    }
+
+    .glow {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(circle at 50% -10%, rgba(60, 66, 170, .75), transparent 60%), linear-gradient(transparent 60%, rgba(12, 13, 26, .85))
+    }
+
+    .page {
+      position: relative;
+      z-index: 2;
+      padding-bottom: 120px
+    }
+
+    h1,
+    h2,
+    h3,
+    .brand {
+      font-family: 'Space Grotesk', sans-serif
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: max(18px, env(safe-area-inset-top)) 28px 0
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 18px
+    }
+
+    .top {
+      background: var(--blue);
+      padding: 9px 16px;
+      border-radius: 22px;
+      font-weight: 500;
+      font-size: 14px
+    }
+
+    .hero {
+      margin: 28px 28px 0;
+      padding: 44px 40px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(100deg, rgba(18, 20, 58, .85), rgba(12, 13, 26, .55));
+      backdrop-filter: blur(8px);
+      max-width: 1000px
+    }
+
+    .tag {
+      font: 400 14px 'JetBrains Mono', monospace;
+      color: #8FE3B0;
+      min-height: 22px
+    }
+
+    .tag::after {
+      content: '▌';
+      margin-left: 2px;
+      animation: bl 1s steps(2) infinite
+    }
+
+    @keyframes bl {
+      50% {
+        opacity: 0
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 7vw, 5rem);
+      line-height: .95;
+      letter-spacing: -.035em;
+      margin: 12px 0 14px
+    }
+
+    .sub {
+      color: var(--mute);
+      max-width: 52ch;
+      margin: 0 0 22px
+    }
+
+    .cta {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      color: #12143A;
+      font-weight: 500;
+      padding: 12px 20px;
+      border-radius: 26px
+    }
+
+    .contact {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+      font-size: 14px;
+      color: var(--mute)
+    }
+
+    .contact a {
+      color: inherit
+    }
+
+    .row {
+      margin-top: 36px
+    }
+
+    .row h2 {
+      font-size: 20px;
+      margin: 0 28px 12px
+    }
+
+    .rail {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 4px 28px 14px;
+      scroll-snap-type: x proximity;
+      scrollbar-width: thin;
+      scrollbar-color: #3A3F8F transparent
+    }
+
+    .card {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      border-radius: 14px;
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      transition: transform .18s
+    }
+
+    .card:hover,
+    .card:focus-visible {
+      transform: scale(1.04)
+    }
+
+    .card.p {
+      width: 250px;
+      height: 160px;
+      display: flex;
+      flex-direction: column
+    }
+
+    .card.p h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.15
+    }
+
+    .card.p p {
+      margin: 0;
+      font-size: 13px;
+      color: #DDE0FF;
+      display: -webkit-box;
+      line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden
+    }
+
+    .card.p span {
+      margin-top: auto;
+      font-size: 12px;
+      color: #fff;
+      opacity: .75
+    }
+
+    .card.s {
+      padding: 12px 18px;
+      font-weight: 500
+    }
+
+    .g0 {
+      background: linear-gradient(145deg, #3B3FA8, #1B1D4D)
+    }
+
+    .g1 {
+      background: linear-gradient(145deg, #2A58D6, #14173A)
+    }
+
+    .g2 {
+      background: linear-gradient(145deg, #6A3FB5, #1B1240)
+    }
+
+    .g3 {
+      background: linear-gradient(145deg, #1F7A8C, #10213A)
+    }
+
+    .sk {
+      width: 250px;
+      height: 160px;
+      border-radius: 14px;
+      background: var(--glass);
+      animation: pl 1.4s ease-in-out infinite
+    }
+
+    @keyframes pl {
+      50% {
+        opacity: .4
+      }
+    }
+
+    .err {
+      margin: 20px 28px;
+      color: #FF9C9C;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px
+    }
+
+    /* chat */
+    .fab {
+      position: fixed;
+      right: max(22px, env(safe-area-inset-right));
+      bottom: max(22px, env(safe-area-inset-bottom));
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .fab .tip {
+      background: #fff;
+      color: #12143A;
+      padding: 8px 14px;
+      border-radius: 16px 16px 4px 16px;
+      font-size: 14px;
+      box-shadow: 0 8px 24px #0006
+    }
+
+    .fab .ic {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: grid;
+      place-items: center;
+      position: relative;
+      box-shadow: 0 8px 24px rgba(47, 107, 255, .5)
+    }
+
+    .fab .ic::after {
+      content: '';
+      position: absolute;
+      right: 2px;
+      top: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #34D27B;
+      border: 2px solid var(--bg)
+    }
+
+    .chat {
+      position: fixed;
+      right: max(22px, env(safe-area-inset-right));
+      bottom: max(22px, env(safe-area-inset-bottom));
+      z-index: 6;
+      width: 390px;
+      height: min(600px, calc(100vh - 44px));
+      display: flex;
+      flex-direction: column;
+      background: #11132E;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px #000a;
+      overflow: hidden
+    }
+
+    .chat[hidden],
+    .fab[hidden] {
+      display: none
+    }
+
+    .ch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .av {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--blue);
+      display: grid;
+      place-items: center;
+      font: 700 14px 'Space Grotesk'
+    }
+
+    .ch b {
+      display: block;
+      line-height: 1.2
+    }
+
+    .ch small {
+      color: #34D27B
+    }
+
+    .x {
+      margin-left: auto;
+      font-size: 22px;
+      color: var(--mute);
+      padding: 4px 8px
+    }
+
+    .msgs {
+      flex: 1;
+      overflow: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .b {
+      max-width: 85%;
+      padding: 9px 13px;
+      border-radius: 16px;
+      font-size: 15px;
+      line-height: 1.45
+    }
+
+    .b p {
+      margin: 0 0 .5em
+    }
+
+    .b p:last-child {
+      margin: 0
+    }
+
+    .b ul {
+      margin: 0 0 .5em;
+      padding-left: 1.2em
+    }
+
+    .b.bot {
+      background: rgba(255, 255, 255, .1);
+      border-bottom-left-radius: 4px
+    }
+
+    .b.me {
+      background: var(--blue);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px
+    }
+
+    .b.bad {
+      background: rgba(255, 100, 100, .15);
+      color: #FFB3B3
+    }
+
+    .src {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #8FE3B0
+    }
+
+    .dots span {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin: 0 2px;
+      border-radius: 50%;
+      background: var(--mute);
+      animation: up 1s infinite
+    }
+
+    .dots span:nth-child(2) {
+      animation-delay: .15s
+    }
+
+    .dots span:nth-child(3) {
+      animation-delay: .3s
+    }
+
+    @keyframes up {
+      30% {
+        transform: translateY(-4px)
+      }
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 0 14px 10px
+    }
+
+    .chips button {
+      border: 1px solid var(--blue);
+      color: #9DB8FF;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px
+    }
+
+    .chips button:hover {
+      background: var(--blue);
+      color: #fff
+    }
+
+    .in {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px 14px;
+      border-top: 1px solid var(--line)
+    }
+
+    .in input {
+      flex: 1;
+      min-width: 0;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid var(--line);
+      color: #fff;
+      border-radius: 22px;
+      padding: 10px 14px;
+      font: inherit
+    }
+
+    .in input:focus {
+      outline: 2px solid var(--blue);
+      outline-offset: 0
+    }
+
+    .in button {
+      background: var(--blue);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center
+    }
+
+    .in button:disabled {
+      opacity: .5
+    }
+
+    @media (max-width:640px) {
+      .hero {
+        margin: 20px 16px 0;
+        padding: 28px 22px
+      }
+
+      nav {
+        padding-left: 16px;
+        padding-right: 16px
+      }
+
+      .row h2 {
+        margin-left: 16px
+      }
+
+      .rail {
+        padding-left: 16px;
+        padding-right: 16px
+      }
+
+      .err {
+        margin: 16px
+      }
+
+      .chat {
+        inset: 0;
+        width: auto;
+        height: auto;
+        border-radius: 0
+      }
+
+      .fab .tip {
+        display: none
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
+      .tag::after,
+      .sk,
+      .dots span {
+        animation: none
+      }
+
+      .card {
+        transition: none
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+  <div class="glow"></div>
+  <div class="page">
+    <nav><span class="brand" id="brand">Amit Kumar</span><button class="top" data-open>Ask me anything</button></nav>
+    <header class="hero">
+      <div class="tag" id="tag"></div>
+      <h1 id="name">Amit Kumar</h1>
+      <p class="sub">Recruiters: skip the reading. Ask the chat anything about my work, or tap a card below.</p>
+      <button class="cta" data-open>Start a 2 minute interview ▶</button>
+      <div class="contact" id="contact"></div>
+    </header>
+    <div id="rows">
+      <div class="row">
+        <h2>Projects</h2>
+        <div class="rail">
+          <div class="sk"></div>
+          <div class="sk"></div>
+          <div class="sk"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fab" id="fab"><span class="tip">Hi! Ask me about my work</span>
+    <button class="ic" data-open aria-label="Open chat"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"
+        stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" />
+      </svg></button>
+  </div>
+
+  <section class="chat" id="chat" hidden aria-label="Chat">
+    <div class="ch">
+      <div class="av" id="av">AK</div>
+      <div><b id="cname">Amit Kumar</b><small>● online</small></div><button class="x" id="close"
+        aria-label="Close chat">×</button>
+    </div>
+    <div class="msgs" id="msgs" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <div class="in"><input id="box" type="text" placeholder="Message Amit…" aria-label="Message" autocomplete="off">
+      <button id="send" aria-label="Send"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 2 11 13M22 2l-7 20-4-9-9-4z" />
+        </svg></button>
+    </div>
+  </section>
+
+  <script>
+    const API = new URLSearchParams(location.search).get('api') || 'http://localhost:8000';
+    const $ = s => document.querySelector(s);
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    /* developer rain background */
+    (function () {
+      const cv = $('#bg'), cx = cv.getContext('2d'), sym = '{}[]()<>/=;:+*&|!01'.split('').concat(['=>', 'fn', 'if', '0x']);
+      let W, H, cols, y;
+      function size() { W = cv.width = innerWidth; H = cv.height = innerHeight; cols = Math.ceil(W / 18); y = Array.from({ length: cols }, () => Math.random() * -50); cx.fillStyle = '#0C0D1A'; cx.fillRect(0, 0, W, H); }
+      function tick() {
+        cx.fillStyle = 'rgba(12,13,26,.1)'; cx.fillRect(0, 0, W, H);
+        cx.font = '14px JetBrains Mono, monospace';
+        for (let i = 0; i < cols; i++) {
+          const ch = sym[Math.random() * sym.length | 0];
+          cx.fillStyle = Math.random() > .96 ? 'rgba(160,230,190,.9)' : 'rgba(120,140,255,.5)';
+          cx.fillText(ch, i * 18, y[i] * 18);
+          if (y[i] * 18 > H && Math.random() > .975) y[i] = 0;
+          y[i] += .5;
+        }
+      }
+      size(); addEventListener('resize', size);
+      if (calm) { for (let i = 0; i < 120; i++) tick(); } else setInterval(tick, 55);
+    })();
+
+    function md(t) {
+      const lines = esc(t).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').split('\n');
+      let h = '', list = false;
+      for (const l of lines) {
+        const m = l.match(/^\s*[-*•]\s+(.*)/);
+        if (m) { if (!list) { h += '<ul>'; list = true } h += '<li>' + m[1] + '</li>'; }
+        else { if (list) { h += '</ul>'; list = false } if (l.trim()) h += '<p>' + l + '</p>'; }
+      }
+      return h + (list ? '</ul>' : '');
+    }
+
+    function typeTag(text) {
+      const el = $('#tag'); let i = 0;
+      const full = '> ' + text;
+      if (calm) { el.textContent = full; return; }
+      const t = setInterval(() => { el.textContent = full.slice(0, ++i); if (i >= full.length) clearInterval(t); }, 45);
+    }
+
+    function splitTitle(s) {
+      s = String(s);
+      const m = s.match(/^(.{2,34}?)\s*(?:[:–—-]|\()\s*(.*)$/);
+      return m ? [m[1].trim(), m[2].replace(/\)$/, '').trim()] : [s.slice(0, 30), s.length > 30 ? s : ''];
+    }
+
+    function render(d) {
+      const nm = d.name || 'Amit Kumar';
+      $('#name').textContent = nm; $('#brand').textContent = nm; $('#cname').textContent = nm;
+      $('#av').textContent = nm.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+      document.title = nm + ' ~ portfolio';
+      typeTag(((d.experiences || [])[0] || {}).role || 'software engineer');
+      $('#contact').innerHTML = [d.mail && `<a href="mailto:${esc(d.mail)}">${esc(d.mail)}</a>`, d.phone && `<span>${esc(d.phone)}</span>`].filter(Boolean).join('');
+
+      const g = i => 'g' + (i % 4);
+      const card = (cls, i, q, inner) => `<button class="card ${cls} ${g(i)}" data-q="${esc(q)}">${inner}</button>`;
+      const rail = (title, items) => items ? `<div class="row"><h2>${title}</h2><div class="rail">${items}</div></div>` : '';
+
+      const proj = (d.project || []).map((p, i) => {
+        const [t, desc] = splitTitle(p);
+        return card('p', i, 'Tell me about this project: ' + t, `<h3>${esc(t)}</h3><p>${esc(desc)}</p><span>Ask about this</span>`);
+      }).join('');
+      const exp = (d.experiences || []).map((e, i) =>
+        card('p', i + 1, `Tell me about your ${e.role || 'role'}${e.company ? ' at ' + e.company : ''}.`,
+          `<h3>${esc(e.role || 'Role')}</h3><p>${esc([e.company, e.duration].filter(Boolean).join(' · '))}</p><span>Ask about this</span>`)).join('');
+      const skills = (d.skill || []).map((s, i) => card('s', i, `How have you used ${s}?`, esc(s))).join('');
+      const edu = [...(d.education || []).map(x => ['Tell me about your education: ', x]), ...(d.certification || []).map(x => ['Tell me about this certification: ', x])]
+        .map(([pre, x], i) => { const [t, desc] = splitTitle(x); return card('p', i + 2, pre + t, `<h3>${esc(t)}</h3><p>${esc(desc)}</p><span>Ask about this</span>`); }).join('');
+
+      $('#rows').innerHTML = rail('Projects', proj) + rail('Experience', exp) + rail('Skills', skills) + rail('Education and certificates', edu);
+    }
+
+    async function load() {
+      try {
+        const r = await fetch(API + '/');
+        if (!r.ok) throw new Error(r.status);
+        render(await r.json());
+      } catch (e) {
+        $('#rows').innerHTML = `<p class="err">Can't reach the backend at ${esc(API)}. Start it with: uvicorn server:app --reload</p>`;
+        typeTag('backend offline');
+      }
+    }
+
+    /* chat */
+    let busy = false, greeted = false;
+    const msgs = $('#msgs');
+    function bubble(html, cls) { const d = document.createElement('div'); d.className = 'b ' + cls; d.innerHTML = html; msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight; return d; }
+
+    function openChat() {
+      $('#chat').hidden = false; $('#fab').hidden = true;
+      if (!greeted) {
+        greeted = true;
+        bubble('Hi! Ask me anything about my work.', 'bot');
+        $('#chips').innerHTML = ['Why should we hire you?', 'Best project?', 'Top skills?', 'Experience?']
+          .map((q, i) => `<button data-q="${esc(['Why should we hire you?', 'Walk me through your best project.', 'What are your strongest technical skills?', 'Tell me about your experience so far.'][i])}">${q}</button>`).join('');
+      }
+      $('#box').focus();
+    }
+    function closeChat() { $('#chat').hidden = true; $('#fab').hidden = false; }
+
+    async function ask(q) {
+      q = q.trim();
+      if (busy || !q) return;
+      busy = true; $('#send').disabled = true;
+      openChat();
+      bubble(esc(q), 'me');
+      const w = bubble('<span class="dots"><span></span><span></span><span></span></span>', 'bot');
+      try {
+        const r = await fetch(API + '/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question: q }) });
+        const j = await r.json();
+        if (!r.ok || j.error) throw new Error(j.error || r.status);
+        w.innerHTML = md(j.answer || '') + (j.sources && j.sources.length ? `<div class="src">✓ Live data: ${esc(j.sources.join(', '))}</div>` : '');
+      } catch (e) {
+        w.className = 'b bad';
+        w.textContent = `That didn't go through (${e.message}). Check that the backend is running and try again.`;
+      }
+      msgs.scrollTop = msgs.scrollHeight;
+      busy = false; $('#send').disabled = false; $('#box').focus();
+    }
+
+    document.addEventListener('click', e => {
+      const q = e.target.closest('[data-q]'); if (q) return ask(q.dataset.q);
+      if (e.target.closest('[data-open]')) openChat();
+    });
+    $('#close').addEventListener('click', closeChat);
+    $('#send').addEventListener('click', () => { const v = $('#box').value; $('#box').value = ''; ask(v); });
+    $('#box').addEventListener('keydown', e => { if (e.key === 'Enter') { const v = e.target.value; e.target.value = ''; ask(v); } });
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeChat(); });
+    load();
+  </script>
+</body>
+
+</html>
