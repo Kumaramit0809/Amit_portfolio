@@ -110,6 +110,7 @@ source = { editable = "." }
 dependencies = [
     { name = "fastapi" },
     { name = "groq" },
+    { name = "httpx" },
     { name = "pydantic" },
     { name = "pypdf" },
     { name = "python-docx" },
@@ -121,6 +122,7 @@ dependencies = [
 requires-dist = [
     { name = "fastapi", specifier = ">=0.142.4" },
     { name = "groq", specifier = ">=1.7.0" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "pydantic", specifier = ">=2.13.5" },
     { name = "pypdf", specifier = ">=6.19.0" },
     { name = "python-docx", specifier = ">=1.2.0" },
