@@ -5,3 +5,9 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_URL = "https://amit-portfolio-9puh.onrender.com"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

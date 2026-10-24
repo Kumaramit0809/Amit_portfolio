@@ -1,12 +1,33 @@
-const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
-const paramApi = searchParams ? searchParams.get('api') : null;
-const envApi = import.meta.env?.VITE_API_URL;
-const fallbackApi =
-  typeof window !== 'undefined' && window.location.origin && window.location.port !== '5173'
-    ? window.location.origin
-    : 'https://amit-portfolio-9puh.onrender.com';
+const BACKEND_PROD_URL = 'https://amit-portfolio-9puh.onrender.com';
 
-export const API = (paramApi || envApi || fallbackApi).replace(/\/+$/, '');
+function getApiUrl() {
+  if (typeof window !== 'undefined') {
+    // 1. Explicit query param override: ?api=https://...
+    const param = new URLSearchParams(window.location.search).get('api');
+    if (param) return param;
+
+    // 2. Local development on localhost/127.0.0.1
+    const isLocalhost =
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '[::1]';
+
+    if (isLocalhost) {
+      return import.meta.env?.VITE_API_URL || 'http://localhost:8000';
+    }
+  }
+
+  // 3. Deployed production (Netlify, Vercel, Render, etc.)
+  // Never point to localhost on a deployed website
+  const envApi = import.meta.env?.VITE_API_URL;
+  if (envApi && !envApi.includes('localhost') && !envApi.includes('127.0.0.1')) {
+    return envApi;
+  }
+
+  return BACKEND_PROD_URL;
+}
+
+export const API = getApiUrl().replace(/\/+$/, '');
 
 export const AVATAR_URL = '';
 

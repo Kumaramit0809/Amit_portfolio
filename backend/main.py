@@ -356,7 +356,12 @@ DIST = Path(__file__).parent.parent / "frontend" / "dist"
 
 @app.get("/ui")
 def ui():
-    return FileResponse(DIST / "index.html")
+    if (DIST / "index.html").exists():
+        return FileResponse(DIST / "index.html")
+    return JSONResponse(
+        {"message": "Frontend is deployed on Netlify. Backend is running.", "status": "online"},
+        status_code=200,
+    )
 
 @app.get("/")
 def home():
