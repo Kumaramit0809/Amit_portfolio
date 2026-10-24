@@ -9,6 +9,7 @@ from pypdf import PdfReader
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 import httpx
 
 load_dotenv()
@@ -351,10 +352,11 @@ Rules and Guardrails:
     return final.choices[0].message.content, used
 
 # ---------------- ROUTES ----------------
+DIST = Path(__file__).parent.parent / "frontend" / "dist"
+
 @app.get("/ui")
 def ui():
-    ui_path = Path(__file__).parent.parent / "frontend" / "index.html"
-    return FileResponse(ui_path)
+    return FileResponse(DIST / "index.html")
 
 @app.get("/")
 def home():
@@ -369,3 +371,31 @@ def chat(request: chatRequest):
     except Exception as e:
         return JSONResponse({"error": f"model request failed: {e}"}, status_code=502)
     return {"answer": answer, "sources": used}
+
+@app.get("/cv")
+def cv():
+    return FileResponse(PDF_PATH, media_type="application/pdf", filename="Amit_Kumar_CV.pdf")
+
+@app.get("/stats")
+def stats():
+    out = {"years": None, "leetcode_solved": None, "contest_top_percent": None, "github_repos": None}
+    try:
+        out["years"] = get_resume().total_experience
+    except Exception:
+        pass
+    try:
+        lc = get_leetcode_stats()
+        out["leetcode_solved"] = lc["solved_by_difficulty"].get("All")
+        top = (lc.get("contest") or {}).get("topPercentage")
+        if top:
+            out["contest_top_percent"] = round(top)
+    except Exception:
+        pass
+    try:
+        out["github_repos"] = get_github_profile()["public_repos"]
+    except Exception:
+        pass
+    return out
+
+if (DIST / "assets").exists():
+    app.mount("/assets", StaticFiles(directory=DIST / "assets"), name="assets")
