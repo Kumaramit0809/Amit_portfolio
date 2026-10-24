@@ -12,7 +12,7 @@ from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 import httpx
 
-load_dotenv()
+load_dotenv() 
 
 myApiKey = os.getenv("GROQ_API_KEY")
 if not myApiKey:

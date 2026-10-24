@@ -78,12 +78,12 @@ const lines = (text) =>
 
 const eduParts = (s) => String(s).split(/\s*[;|]\s*|\s*,\s*(?![^()]*\))/).map((x) => x.trim()).filter(Boolean);
 
-export default function Sections({ data = {}, ask = () => {} }) {
-  const projects = data?.project || [];
-  const skills = data?.skill || [];
-  const certs = data?.certification || [];
+export default function Sections({ data, ask }) {
+  const projects = data.project || [];
+  const skills = data.skill || [];
+  const certs = data.certification || [];
 
-  const expEntries = (data?.experiences || []).map((e) => ({
+  const expEntries = (data.experiences || []).map((e) => ({
     title: e.role || 'Role',
     sub: [e.company, e.duration].filter(Boolean).join(' · '),
     lines: lines(e.description),
@@ -91,7 +91,7 @@ export default function Sections({ data = {}, ask = () => {} }) {
     q: `Tell me about your ${e.role || 'role'}${e.company ? ' at ' + e.company : ''}.`,
   }));
 
-  const eduEntries = (data?.education || []).map((x) => {
+  const eduEntries = (data.education || []).map((x) => {
     const [head, ...rest] = eduParts(x);
     return { title: head || String(x), lines: rest, q: 'Tell me about your education: ' + (head || x) };
   });
